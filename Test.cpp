@@ -1,4 +1,5 @@
 #include <sstream>
+#include <limits>
 
 #include "doctest.h"
 #include "sources/Fraction.hpp"
@@ -17,6 +18,8 @@ TEST_CASE("check") {
     Fraction d(9, 3);
 
     CHECK(a+b == c);
+    CHECK(c-b == a);
+
     CHECK(a > 1);
     CHECK(1 < a);
     CHECK(a < 2);
@@ -29,6 +32,28 @@ TEST_CASE("check") {
     CHECK(d == 3);
     CHECK(3 == d);
     CHECK_EQ(a*2, c);
+}
+
+TEST_CASE("max-min") {
+    Fraction a(numeric_limits<int>::max(), 1);
+    CHECK_THROWS(a++);
+    CHECK_THROWS(++a);
+
+    Fraction b(numeric_limits<int>::min(), 1);
+    CHECK_THROWS(b--);
+    CHECK_THROWS(--b);
+
+    CHECK_THROWS(a+a);
+    CHECK_THROWS(b+b);
+
+    CHECK_THROWS(a*2);
+    CHECK_THROWS(a+1);
+
+    CHECK_THROWS(b-1);
+    CHECK_THROWS(b*2);
+
+    CHECK_THROWS(a/0.5);
+    CHECK_THROWS(b/0.5);
 }
 
 TEST_CASE("cin and cout"){
